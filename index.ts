@@ -672,5 +672,148 @@ ts中自定义方法传入参数对json进行约束
 // c.eat('laoshu')
 
 
-//接口的扩展
+//接口的扩展    接口可以继承接口
+// interface Animal {
+//   eat(): void;
+// }
+// interface Person extends Animal{
+//   work(): void;
+// }
+// class Web implements Person {
+//   name: string;
+//   constructor(name:string) {
+//     this.name=name
+//   }
+//   eat() {
+//     console.log('chichi')
+//   }
+//   work() {
+//     console.log('workkw')
+//   }
+// }
+// var w = new Web('lisi')
+// w.eat()
+// w.work()
 
+
+//案例2
+// interface Animal {
+//   eat(): void;
+// }
+// interface Person extends Animal{
+//   work(): void;
+// }
+// class Programmer {
+//   name: string;
+//   constructor(name: string) {
+//     this.name=name
+//   }
+//   coding(code:string) {
+//     console.log(this.name+code)
+//   }
+// }
+// class Web extends Programmer implements Person {
+
+//   constructor(name:string) {
+//    super(name)
+//   }
+//   eat() {
+//     console.log('chichi')
+//   }
+//   work() {
+//     console.log('workkw')
+//   }
+// }
+// var w = new Web('lisi')
+// w.eat()
+// w.work()
+// w.coding('tsceeeee')
+
+
+
+
+/**
+ 泛型：软件工程中，我们不仅要创建一致的定义良好的API，同时也要考虑可重用性。组件不仅能够支持当前的数据类型，同时也能支持未来的数据类型，这在创建大型系统时为你提供了十分灵活的功能
+ 在像c#和java这样的语言中，可以使用泛型来创建可重用的组件，一个组件可以支持多种类型的数据。这样用户就可以以自己的数据类型来使用组件
+ 通俗理解：泛型就是解决 类 接口 方法的复用性、以及对不特定数据类型的支持
+ */
+
+ //只能返回string
+// function getData(value: string): string{
+//   return value;
+// }
+//同时返回 string和number  代码冗余
+// function getData1(value: string): string{
+//   return value;
+// }
+// function getData2(value: number): number{
+//   return value;
+// }
+//同时返回 string和number 用any 但是any放弃了类型检查，不是希望的传入什么返回什么
+// function getData2(value: any): any{
+//   return value;
+// }
+
+//泛型：可以支持不特定的类型   要求：传入的参数和返回的参数一致
+//T表示泛型 具体是什么类型调用这个方法的时候决定的 任意的字母都行，但要保持统一，建议还是用T
+// function getData<T>(value: T): T{   //用得多
+// return value
+// }
+// console.log(getData<number>(123))
+// console.log(getData<string>('789'))
+// getData<number>(123)
+
+// function getData<T>(value: T): any{  //用得不多
+// return '123'
+// }
+// console.log(getData<number>(123))
+// console.log(getData<string>('789'))
+
+
+//泛型类 比如有个最小堆算法，需要同时支持返回数字和字符串a-z两种类型，通过类的泛型来实现
+// class MinClass {
+//   public list: number[]=[];
+//   add(num:number) {
+//     this.list.push(num)
+//   }
+//   min() :number{
+//     var minnum = this.list[0]
+//     for (var i = 0; i < this.list.length; i++){
+//       if (minnum > this.list[i]) {
+//         minnum=this.list[i]
+//       }
+//     }
+//     return minnum
+//   }
+// }
+// var m = new MinClass()
+// m.add(2)
+// m.add(23)
+// m.add(20)
+// alert(m.min())
+
+class MinClass<T> {
+  public list: T[]=[];
+  add(num:T):void {
+    this.list.push(num)
+  }
+  min() :T{
+    var minnum = this.list[0]
+    for (var i = 0; i < this.list.length; i++){
+      if (minnum > this.list[i]) {
+        minnum=this.list[i]
+      }
+    }
+    return minnum
+  }
+}
+var m1 = new MinClass<number>()//实例化类 并且制定了类的T代表的类是number
+m1.add(2)
+m1.add(23)
+m1.add(20)
+console.log(m1.min())
+var m2 = new MinClass<string>()
+m2.add('a')
+m2.add('d')
+m2.add('r')
+console.log(m2.min())   //a   asicll码比较的
