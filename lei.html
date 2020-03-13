@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+</body>
+<script >
+  function Person (name,age){
+    this.name=name
+    this.age=age
+    this.run=function(){  //实例方法 区别于静态方法
+      console.log(this.name+'在运动')
+    }
+  }
+  Person.prototype.sex="male"
+  Person.prototype.work=function(){
+    console.log('i m work')
+  }
+var p = new Person()
+// p.work()
+//继承 原型链+对象冒充的组合模式
+
+function Web(){
+  Person.call(this)    //对象冒充实现继承
+ }
+var w = new Web()
+// w.run() //对象冒充可以继承构造函数里面的属性和方法
+// w.work()   //对象冒充没法继承原型链上面的属性和方法，此行报错
+
+function Pro (){
+
+}
+Pro.prototype = new Person() //原型链实现继承 可以继承构造函数里面的属性和方法 也可以继承原型链上面的属性和方法
+var pr = new Pro()
+
+function Wid (name,age){}
+Wid.prototype = new Person()
+var wi = new Wid('赵四',23)  //实例化子类，没法给父类传参
+// wi.run()  //undefined 运动
+var wi1 = new Wid('赵wu',25)
+
+function Pc(name,age){
+  Person.call(this,name,age)  //对象冒充继承 实例化子类可以给父类传参
+}
+Pc.prototype = new Person()
+var pw = new Pc('赵四',23)  //可以打印正常
+pw.run()//可以打印正常
+pw.work() //可以打印正常
+
+
+
+//原型链+对象冒充继承的另一种方式
+// function Pc(name,age){
+// Person.call(this,name,age) //对象冒充继承 实例化子类可以给父类传参
+// }
+// Pc.prototype = Person.prototype
+// var pw = new Pc('赵四',23) //可以打印正常
+// pw.run()//可以打印正常
+// pw.work()
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</html>
